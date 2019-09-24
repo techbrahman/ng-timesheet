@@ -1,0 +1,62 @@
+<div class="card">
+  <div class="card-body">
+    <h3>Adding TimeSheet Feature</h3>
+    <hr />
+    <form (ngSubmit)="onSubmit()" novalidate>
+      <div class="form-group">
+        <div class="col-xs-2">
+          <label>Select Employee: </label>
+          <select class="form-control" [(ngModel)]="selectedEmployee" name="selectedEmployee" (change)="onChange($event)">
+            <option [value]="employee.id" *ngFor="let employee of employees">
+              {{employee.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="text-right">
+            <input type="button" value="+" (click)="addNewTimeSheetEntry()" class="btn btn-success">
+          </div>
+        </div>
+      </div>
+
+      <h2 class="text-center"> <input type="button" value="<" (click)="previous()" class="btn btn-success"> {{heading}}
+        <input type="button" value=">" (click)="next()" class="btn btn-success"></h2>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Task Name</th>
+            <th scope="col">Sunday</th>
+            <th scope="col">Monday</th>
+            <th scope="col">Tuesday</th>
+            <th scope="col">Wednesday</th>
+            <th scope="col">Thursday</th>
+            <th scope="col">Friday</th>
+            <th scope="col">Saturday</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let entries of TimeSheetEntries ; let out = index">
+            <td><select class="form-control" [(ngModel)]="entries.taskId" name="taskId-{{out}}">
+                <option [value]="task.id" *ngFor="let task of Tasks">
+                  {{task.name}}
+                </option>
+              </select>
+            </td>
+            <td *ngFor="let entry of entries.breakdownByTask; let in = index">
+              <input type="text" class="form-control" [(ngModel)]="entry.hoursWorked" name="hoursWorked-{{in}}-{{out}}">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="text-right">
+        <input type="submit" value="Save" class="btn btn-primary">
+        <input type="button" value="Back to list" (click)="backToList()" class="btn btn-default">
+      </div>
+    </form>
+  </div>
+</div>
